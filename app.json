@@ -11,16 +11,24 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.DaMoimApp",
+      "config": {
+        "googleMapsApiKey": "AIzaSyCJR9zhDyMR8JIwXQHhaNXnI30G9ypP8cQ"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.DaMoimApp",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCJR9zhDyMR8JIwXQHhaNXnI30G9ypP8cQ"
+        }
       }
     },
     "web": {
