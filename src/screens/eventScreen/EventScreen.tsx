@@ -7,7 +7,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { MoimHeader } from "../home/components/MoimHeader";
+import { EventHeader } from "./components/EventHeader";
 
 const { width } = Dimensions.get("window");
 
@@ -95,7 +95,7 @@ export default ImageSlide;
 export const EventScreen: React.FC = () => {
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
-      <MoimHeader showBackButton={true} />
+      <EventHeader showBackButton={true} />
       <ImageSlide />
       <View
         style={{

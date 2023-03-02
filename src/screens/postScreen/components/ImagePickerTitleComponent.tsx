@@ -10,7 +10,13 @@ export const ImagePickerTitle: React.FC<{
     <View>
       <Spacer />
       <Spacer />
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          width: Dimensions.get("window").width * 0.9,
+        }}
+      >
         <View style={{ flexDirection: "row" }}>
           <Text
             style={{
@@ -30,7 +36,7 @@ export const ImagePickerTitle: React.FC<{
           />
         </View>
         <View>
-          <Text style={{ alignItems: "center", fontSize: 10, marginTop: 3 }}>
+          <Text style={{ alignItems: "center", fontSize: 12, marginTop: 3 }}>
             {props.ImageCount} / 5
           </Text>
         </View>

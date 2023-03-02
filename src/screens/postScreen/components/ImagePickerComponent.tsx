@@ -66,36 +66,55 @@ export const ImagePickerComponent: React.FC<{
   return (
     <View>
       <ImagePickerTitle ImageCount={props.selectedImages.length} />
-      {props.selectedImages.length > 0 && (
-        <ScrollView horizontal={true}>
-          {props.selectedImages.map((imageUri, index) => (
-            <View key={index} style={{ marginRight: 10 }}>
-              <Image
-                source={{ uri: imageUri }}
-                style={{
-                  width: Dimensions.get("window").width * 0.6,
-                  height: Dimensions.get("window").width * 0.6 * 0.75,
-                }}
-                resizeMode="contain"
-              />
-              <TouchableOpacity onPress={() => handleImageCancel(index)}>
-                <Text>Cancel Image</Text>
-              </TouchableOpacity>
-            </View>
-          ))}
-        </ScrollView>
-      )}
+      <View
+        style={{
+          width: Dimensions.get("window").width * 0.9,
+          height: Dimensions.get("window").width * 0.9 * 0.75,
+          borderColor: "rgba(0,0,0,0.2)",
+          borderWidth: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 10,
+          paddingHorizontal: 20,
+        }}
+      >
+        {props.selectedImages.length > 0 && (
+          <ScrollView horizontal={true}>
+            {props.selectedImages.map((imageUri, index) => (
+              <View key={index}>
+                <Image
+                  source={{ uri: imageUri }}
+                  style={{
+                    width: Dimensions.get("window").width * 0.8,
+                    height: Dimensions.get("window").width * 0.8 * 0.75,
+                    marginTop:
+                      (Dimensions.get("window").width * 0.9 * 0.75) / 25,
+                  }}
+                  resizeMode="contain"
+                />
+                <TouchableOpacity
+                  style={{ position: "absolute" }}
+                  onPress={() => handleImageCancel(index)}
+                >
+                  <Image
+                    source={require("../../../assets/back.png")}
+                    style={{
+                      width: Dimensions.get("window").width * 0.1,
+                      height: Dimensions.get("window").width * 0.1,
+                      backgroundColor: "white",
+                      borderRadius: 12,
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+            ))}
+          </ScrollView>
+        )}
+      </View>
       <ImagePickerButton
         handlePreview={handleImageSelection}
         disableUploadButton={props.uploadButtonEnabled}
       />
-      <TouchableOpacity
-        onPress={handleImageSelection}
-        disabled={!props.uploadButtonEnabled}
-      >
-        <Text>Select Images</Text>
-      </TouchableOpacity>
-      <Text>{`Number of Images Uploaded: ${props.selectedImages.length}/5`}</Text>
     </View>
   );
 };

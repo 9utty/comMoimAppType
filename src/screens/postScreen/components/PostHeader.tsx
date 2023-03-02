@@ -6,6 +6,7 @@ import {
   Dimensions,
   Alert,
   BackHandler,
+  Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ImageButton from "../../../components/ImageButton";
@@ -24,6 +25,8 @@ export const PostHeader: React.FC<{
   setEventTitle: (text: string) => void;
   setEventDescription: (text: string) => void;
   setOpenTalk: (text: string) => void;
+  setSelectedImages: (image: string[]) => void;
+  setUploadButton: (enabled: boolean) => void;
 }> = (props) => {
   const dispatch = useDispatch();
   const navigation =
@@ -45,6 +48,8 @@ export const PostHeader: React.FC<{
             props.setEventDescription("");
             props.setEventTitle("");
             props.setOpenTalk("");
+            props.setSelectedImages([]);
+            props.setUploadButton(false);
             dispatch(deleteAllImages());
             dispatch(deleteAllEventPost());
             navigation.goBack();
@@ -86,16 +91,18 @@ export const PostHeader: React.FC<{
   return (
     <SafeAreaView edges={["top"]}>
       <View style={styleHeader.container}>
-        <ImageButton
-          onPress={handleBackButton}
-          style={styleHeader.backButton}
-          source={require("../../../assets/back.png")}
-        />
-        <ImageButton
-          onPress={onPressSubmit}
-          style={styleHeader.submitButton}
-          source={require("../../../assets/OK.png")}
-        />
+        <View style={styleHeader.container2}>
+          <ImageButton
+            onPress={handleBackButton}
+            style={styleHeader.backButton}
+            source={require("../../../assets/back.png")}
+          />
+          <ImageButton
+            onPress={onPressSubmit}
+            style={styleHeader.submitButton}
+            source={require("../../../assets/OK.png")}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -104,25 +111,30 @@ export const PostHeader: React.FC<{
 const styleHeader = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
-    height: Dimensions.get("window").height * 0.07,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 5,
-    paddingTop: 5,
+    height:
+      Platform.OS === "ios"
+        ? Dimensions.get("window").height * 0.07
+        : Dimensions.get("window").height * 0.1,
     borderBottomColor: "black",
     borderBottomWidth: 3,
     backgroundColor: "white",
   },
+  container2: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: Dimensions.get("window").width * 0.9,
+  },
   backButton: {
     marginTop: -10,
-    width: Dimensions.get("window").width * 0.13,
+    width: Dimensions.get("window").width * 0.15,
     height: Dimensions.get("window").height * 0.07,
   },
   submitButton: {
     marginTop: -10,
-    width: Dimensions.get("window").width * 0.13,
+    width: Dimensions.get("window").width * 0.15,
     height: Dimensions.get("window").height * 0.07,
   },
 });

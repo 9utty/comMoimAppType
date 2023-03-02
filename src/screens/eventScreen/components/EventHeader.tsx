@@ -54,17 +54,16 @@ const styleHeader = StyleSheet.create({
   },
 });
 
-export const MoimHeader: React.FC<{
+export const EventHeader: React.FC<{
   showBackButton: boolean;
 }> = (props) => {
   const dispatch = useDispatch();
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const onPressBack = () => {
-    //해당 코드 작성
+  const handleBackButton = () => {
+    navigation.goBack();
   };
-
   const onPressSearch = () => {
     navigation.navigate("Search");
   };
@@ -80,9 +79,10 @@ export const MoimHeader: React.FC<{
             width: Dimensions.get("window").width * 0.9,
           }}
         >
-          <Image
-            source={require("../../../assets/moim.png")}
-            style={styleHeader.moimButton}
+          <ImageButton
+            onPress={handleBackButton}
+            style={styleHeader.backButton}
+            source={require("../../../assets/back.png")}
           />
           <ImageButton
             onPress={onPressSearch}

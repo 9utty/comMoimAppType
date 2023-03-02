@@ -16,6 +16,7 @@ export const ImagePickerButton: React.FC<ImagePickerButtonProps> = ({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "center",
+        width: Dimensions.get("window").width * 0.9,
         marginTop: 10,
       }}
     >
@@ -23,7 +24,7 @@ export const ImagePickerButton: React.FC<ImagePickerButtonProps> = ({
         style={{
           backgroundColor: disableUploadButton ? "#ccc" : "#e0321f",
           padding: 10,
-          borderRadius: 5,
+          borderRadius: 10,
           width: Dimensions.get("window").width - 300,
         }}
         onPress={handlePreview}

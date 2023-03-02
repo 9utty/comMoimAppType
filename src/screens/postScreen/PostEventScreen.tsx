@@ -59,6 +59,8 @@ export const PostEventScreen = () => {
         setEventTitle={setEventTitle}
         setEventDescription={setEventDescription}
         setOpenTalk={setEventOpenTalk}
+        setSelectedImages={setSelectedImages}
+        setUploadButton={setUploadButtonEnabled}
       />
       <ScrollView
         contentContainerStyle={{

@@ -5,6 +5,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
+  Dimensions,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { Spacer } from "../../../components/Spacer";
@@ -30,7 +31,13 @@ export const PostInput: React.FC<{
   return (
     <View>
       <Spacer />
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          width: Dimensions.get("window").width * 0.9,
+        }}
+      >
         <View style={{ flexDirection: "row" }}>
           <Text style={{ fontWeight: "bold", fontSize: 18, marginRight: 5 }}>
             {props.inputTitle}
@@ -45,7 +52,7 @@ export const PostInput: React.FC<{
           ) : null}
         </View>
         <View>
-          <Text style={{ alignItems: "center", fontSize: 10, marginTop: 3 }}>
+          <Text style={{ alignItems: "center", fontSize: 12, marginTop: 3 }}>
             {props.value.length} / {props.textMax}
           </Text>
         </View>
