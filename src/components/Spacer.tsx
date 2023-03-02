@@ -1,12 +1,14 @@
 import React from "react";
 import { View } from "react-native";
 
-export const Spacer: React.FC = () => {
+export const Spacer: React.FC<{
+  size?: number;
+}> = (props) => {
   return (
     <View
       style={{
-        marginHorizontal: 10,
-        marginVertical: 10,
+        marginVertical: props.size ?? 20,
+        backgroundColor: "rgba(0,0,0,0)",
       }}
     />
   );

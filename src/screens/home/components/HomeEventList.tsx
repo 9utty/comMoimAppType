@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
+import { Spacer } from "../../../components/Spacer";
 import { EventButton } from "./EventButton";
 
 export const HomeEventList: React.FC<{
@@ -13,6 +14,7 @@ export const HomeEventList: React.FC<{
           justifyContent: "flex-start",
           marginLeft: 30,
           marginTop: 10,
+          marginBottom: 0,
         }}
       ></View>
       <View
@@ -59,6 +61,7 @@ export const HomeEventList: React.FC<{
         <EventButton onPressEvent={props.onPressEvent} />
         <EventButton onPressEvent={props.onPressEvent} />
       </View>
+      <Spacer size={Dimensions.get("window").height * 0.1} />
     </View>
   );
 };

@@ -19,7 +19,6 @@ export const HomeHashtagList: React.FC<{ onPressHashtag: () => void }> = (
           alignItems: "center",
           justifyContent: "space-around",
           paddingHorizontal: 10,
-          marginTop: -20,
         }}
       >
         <HashtagButton

@@ -1,7 +1,20 @@
-import React, { useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
+import { useDispatch } from "react-redux";
 import { Spacer } from "../../../components/Spacer";
 import { Octicons } from "@expo/vector-icons";
+import { inputType } from "../PostEventScreen";
+import {
+  addDescription,
+  addOpenTalkLink,
+  addTitle,
+} from "../../../redux/EventPost/EventPostAction";
 
 export const PostInput: React.FC<{
   inputTitle: string;
@@ -9,27 +22,31 @@ export const PostInput: React.FC<{
   PlaceHolder?: string;
   onChangeText: (text: string) => void;
   value: string;
+  type: inputType;
+  isForce: boolean;
 }> = (props) => {
-  const { inputTitle, textMax, PlaceHolder, onChangeText, value } = props;
-  const [context, setContext] = useState(value);
+  const dispatch = useDispatch();
+
   return (
     <View>
       <Spacer />
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <View style={{ flexDirection: "row" }}>
           <Text style={{ fontWeight: "bold", fontSize: 18, marginRight: 5 }}>
-            {inputTitle}
+            {props.inputTitle}
           </Text>
-          <Octicons
-            name="check"
-            size={14}
-            color="red"
-            style={{ paddingHorizontal: 4 }}
-          />
+          {props.isForce ? (
+            <Octicons
+              name="check"
+              size={14}
+              color="red"
+              style={{ paddingHorizontal: 4 }}
+            />
+          ) : null}
         </View>
         <View>
           <Text style={{ alignItems: "center", fontSize: 10, marginTop: 3 }}>
-            {context.length} / {textMax}
+            {props.value.length} / {props.textMax}
           </Text>
         </View>
       </View>
@@ -42,16 +59,31 @@ export const PostInput: React.FC<{
           borderWidth: 1,
         }}
       >
-        <TextInput
-          value={context}
-          onChangeText={(text) => {
-            setContext(text);
-            onChangeText(text);
-          }}
-          maxLength={textMax}
-          placeholder={PlaceHolder || "Enter your text here..."}
-          multiline={true}
-        />
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <TextInput
+            value={props.value}
+            onChangeText={(text) => {
+              if (props.type === 0) {
+                dispatch(addTitle(text));
+              } else if (props.type === 1) {
+                dispatch(addDescription(text));
+              } else if (props.type === 2) {
+                dispatch(addOpenTalkLink(text));
+              }
+              props.onChangeText(text);
+            }}
+            maxLength={props.textMax}
+            placeholder={props.PlaceHolder || "Enter your text here..."}
+            multiline={true}
+            editable={true}
+            autoFocus={true}
+            keyboardType="default"
+            clearButtonMode="while-editing"
+          />
+        </KeyboardAvoidingView>
       </View>
     </View>
   );

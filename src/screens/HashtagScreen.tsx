@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { MoimHeader } from "../components/MoimHeader";
+import { MoimHeader } from "./home/components/MoimHeader";
 
 export const HashtagScreen: React.FC = () => {
   return (

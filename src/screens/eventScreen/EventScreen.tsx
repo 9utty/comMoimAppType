@@ -7,7 +7,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { MoimHeader } from "../../components/MoimHeader";
+import { MoimHeader } from "../home/components/MoimHeader";
 
 const { width } = Dimensions.get("window");
 

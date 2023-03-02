@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -14,50 +14,76 @@ type ImagePreviewListProps = {
   previewUris: string[];
   onImageSelected: (uris: string[]) => void;
   setPreviewUris: React.Dispatch<React.SetStateAction<string[]>>;
+  ImageCount: number;
+  setImageCount: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const ImagePreviewList: React.FC<ImagePreviewListProps> = ({
   previewUris,
   onImageSelected,
   setPreviewUris,
+  setImageCount,
+  ImageCount,
 }) => {
-  const renderImageItem = ({ item }: { item: string }) => (
-    <View style={{ marginRight: 10, position: "relative" }}>
-      <Image
-        source={{ uri: item }}
-        style={{
-          width: Dimensions.get("window").width - 120,
-          height: (Dimensions.get("window").width - 120) * 0.75,
-          resizeMode: "cover",
-        }}
-      />
-      <TouchableOpacity
-        style={{
-          position: "absolute",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        onPress={() => {
-          setPreviewUris((prevUris) => prevUris.filter((uri) => uri !== item));
-          onImageSelected(previewUris.filter((uri) => uri !== item));
-        }}
-      >
-        <View
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    previewUris.forEach((item) => {
+      Image.getSize(
+        item,
+        (width, height) => {
+          const ratio = height / width;
+          const newHeight = (Dimensions.get("window").width - 120) * ratio;
+          setHeight(newHeight);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    });
+  }, [previewUris]);
+
+  const renderImageItem = ({ item }: { item: string }) => {
+    return (
+      <View style={{ marginRight: 10, position: "relative" }}>
+        <Image
+          source={{ uri: item }}
           style={{
-            width: 30,
-            height: 30,
-            backgroundColor: "white",
-            borderRadius: 10,
+            width: Dimensions.get("window").width - 120,
+            height: height,
+            resizeMode: "stretch",
+          }}
+        />
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onPress={() => {
+            setPreviewUris((prevUris) =>
+              prevUris.filter((uri) => uri !== item)
+            );
+            onImageSelected(previewUris.filter((uri) => uri !== item));
           }}
         >
-          <Image
-            source={require("../../../assets/back.png")}
-            style={{ width: 30, height: 30 }}
-          />
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
+          <View
+            style={{
+              width: 30,
+              height: 30,
+              backgroundColor: "white",
+              borderRadius: 10,
+            }}
+          >
+            <Image
+              source={require("../../../assets/back.png")}
+              style={{ width: 30, height: 30 }}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
   const disableUploadButton = previewUris.length >= 5;
 
@@ -81,6 +107,16 @@ export const ImagePreviewList: React.FC<ImagePreviewListProps> = ({
             marginVertical: 30,
           }}
         >
+          <>
+            {() => {
+              if (ImageCount == 0) {
+                setPreviewUris([]);
+                setImageCount(0);
+              }
+              console.log("초기화성공?");
+              console.log(ImageCount);
+            }}
+          </>
           {previewUris.length > 0 && (
             <FlatList
               data={previewUris}

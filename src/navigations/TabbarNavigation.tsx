@@ -6,6 +6,7 @@ import { PostEventScreen } from "../screens/postScreen/PostEventScreen";
 import { EventListScreen } from "../screens/EventListScreen";
 import { ProfileScreen } from "../screens/ProfileScreen";
 import { HomeNavigation } from "./HomeNavigation";
+import { useSelector } from "react-redux";
 
 type RootTabParamList = {
   홈: undefined;
@@ -69,23 +70,27 @@ const TabBarIcon = (focused: boolean, name: string) => {
   );
 };
 
-export const TabBar: React.FC = () => (
-  <Tab.Navigator
-    screenOptions={({ route }) => ({
-      tabBarIcon: ({ focused }) => TabBarIcon(focused, route.name),
-      headerShown: false,
-      tabBarLabel: "",
-      tabBarStyle: {
-        marginBottom: 5,
-        paddingTop: 45, // change this value to increase the height of the tab bar
-        borderTopWidth: 3, // add this to increase the thickness of the top border
-        borderTopColor: "black", // add this to change the color of the top border
-      },
-    })}
-  >
-    <Tab.Screen name="홈" component={HomeNavigation} />
-    <Tab.Screen name="작성하기" component={PostEventScreen} />
-    <Tab.Screen name="파티리스트" component={EventListScreen} />
-    <Tab.Screen name="프로필" component={ProfileScreen} />
-  </Tab.Navigator>
-);
+export const TabBar: React.FC = () => {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused }) => TabBarIcon(focused, route.name),
+        headerShown: false,
+        tabBarLabel: "",
+        tabBarStyle: {
+          marginBottom: 5,
+          paddingBottom: 20,
+          paddingTop: 45, // change this value to increase the height of the tab bar
+          borderTopWidth: 3, // add this to increase the thickness of the top border
+          borderTopColor: "black", // add this to change the color of the top border
+        },
+        tabBarHideOnKeyboard: true,
+      })}
+    >
+      <Tab.Screen name="홈" component={HomeNavigation} />
+      <Tab.Screen name="작성하기" component={PostEventScreen} />
+      <Tab.Screen name="파티리스트" component={EventListScreen} />
+      <Tab.Screen name="프로필" component={ProfileScreen} />
+    </Tab.Navigator>
+  );
+};

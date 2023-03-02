@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -6,25 +6,36 @@ import {
   Button,
   StyleSheet,
   ScrollView,
+  Dimensions,
+  Platform,
+  KeyboardAvoidingView,
 } from "react-native";
 import * as Location from "expo-location";
-import { MoimHeader } from "../../components/MoimHeader";
+import { MoimHeader } from "../home/components/MoimHeader";
 import { ImagePickerComponent } from "./components/ImagePickerComponent";
 import { Spacer } from "../../components/Spacer";
 import { PostInput } from "./components/PostInputComponent";
+import { useNavigation } from "@react-navigation/native";
+import { PostHeader } from "./components/PostHeader";
+
+export enum inputType {
+  TITLE,
+  DESCRIPTION,
+  OPENTALKLING,
+}
 
 export const PostEventScreen = () => {
   const [location, setLocation] = useState("");
-  const [imageUris, setImageUris] = useState<string[]>([]);
   const [eventTitle, setEventTitle] = useState("");
   const [eventDescription, setEventDescription] = useState("");
+  const [eventOpenTalk, setEventOpenTalk] = useState("");
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [uploadButtonEnabled, setUploadButtonEnabled] = useState(false);
+  const navigation = useNavigation();
 
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
-      imageUris.forEach((uri) => {
-        formData.append("picture", uri);
-      });
       formData.append("location", location);
       formData.append("title", eventTitle);
       formData.append("description", eventDescription);
@@ -33,24 +44,26 @@ export const PostEventScreen = () => {
         method: "POST",
         body: formData,
       });
-
-      // handle response
     } catch (error) {
       console.error("Error creating post:", error);
     }
   };
 
-  const handleImageSelected = (uris: string[]) => {
-    setImageUris(uris);
-  };
-
   return (
-    <View style={{ backgroundColor: "white" }}>
-      <MoimHeader showBackButton={true} />
+    <View
+      style={{
+        backgroundColor: "white",
+      }}
+    >
+      <PostHeader
+        setEventTitle={setEventTitle}
+        setEventDescription={setEventDescription}
+        setOpenTalk={setEventOpenTalk}
+      />
       <ScrollView
-        style={{
-          marginTop: -20,
-          paddingTop: -50,
+        contentContainerStyle={{
+          paddingTop: Dimensions.get("window").height * 0.05,
+          paddingBottom: Dimensions.get("window").height * 0.15,
         }}
       >
         <View style={StylePost.container}>
@@ -64,16 +77,48 @@ export const PostEventScreen = () => {
             textMax={50}
             value={eventTitle}
             onChangeText={setEventTitle}
+            PlaceHolder={"이벤트 제목을 입력해주세요."}
+            type={inputType.TITLE}
+            isForce={true}
           />
-          <ImagePickerComponent onImageSelected={handleImageSelected} />
+          <View
+            style={{
+              width: Dimensions.get("window").width * 0.8,
+              height: Dimensions.get("window").height * 0.5,
+            }}
+          >
+            <ImagePickerComponent
+              selectedImages={selectedImages}
+              uploadButtonEnabled={uploadButtonEnabled}
+              setSelectedImages={setSelectedImages}
+              setUploadButtonEnabled={setUploadButtonEnabled}
+            />
+          </View>
           <PostInput
             inputTitle="이벤트 설명"
-            textMax={500}
+            textMax={200}
             value={eventDescription}
             onChangeText={setEventDescription}
+            PlaceHolder={"이벤트 설명을 입력해주세요."}
+            type={inputType.DESCRIPTION}
+            isForce={true}
+          />
+          <Spacer size={10} />
+          <Text>달력</Text>
+          <Spacer size={10} />
+          <Text>로케이션</Text>
+          <PostInput
+            inputTitle="오픈톡 링크"
+            textMax={200}
+            value={eventOpenTalk}
+            onChangeText={setEventOpenTalk}
+            PlaceHolder={"오픈톡 링크를 입력해주세요."}
+            type={inputType.OPENTALKLING}
+            isForce={false}
           />
         </View>
         <Button title="Submit" onPress={handleSubmit} />
+        <Spacer size={Dimensions.get("window").height * 0.1} />
       </ScrollView>
     </View>
   );

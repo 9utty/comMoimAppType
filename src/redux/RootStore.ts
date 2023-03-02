@@ -1,22 +1,14 @@
 import { combineReducers, createStore } from "redux";
-import userReducer from "./user/reducer";
-import eventReducer from "./event/reducer";
-import hashtagReducer from "./hashtag/reducer";
-import searchReducer from "./search/reducer";
 import summaryEventReducer from "./SummaryEvent/SummaryEventReducer";
-import locationReducer from "./location/LocationReducer";
-import reviewReducer from "./review/reducer";
-import eventImageReducer from "./eventImage/reducer";
+import locationReducer from "./Location/LocationReducer";
+import { imageReducer } from "./Image/ImageReducer";
+import eventPostReducer from "./EventPost/EventPostReducer";
 
 const rootReducer = combineReducers({
-  user: userReducer,
-  event: eventReducer,
-  hashtag: hashtagReducer,
-  search: searchReducer,
   summaryEvent: summaryEventReducer,
   location: locationReducer,
-  review: reviewReducer,
-  eventImage: eventImageReducer,
+  image: imageReducer,
+  eventPost: eventPostReducer,
 });
 
 const store = createStore(rootReducer);

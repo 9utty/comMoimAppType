@@ -1,7 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useCallback } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
-import { MoimHeader } from "../../components/MoimHeader";
+import { View, ScrollView, StyleSheet, Dimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { MoimHeader } from "./components/MoimHeader";
+import { Spacer } from "../../components/Spacer";
 import { HomeEventList } from "./components/HomeEventList";
 import { HomeHashtagList } from "./components/HomeHashtagList";
 
@@ -16,6 +18,7 @@ export const HomeScreen: React.FC = () => {
   return (
     <View style={{ backgroundColor: "white" }}>
       <MoimHeader showBackButton={false} />
+      <Spacer size={20} />
       <ScrollView style={HomeScreenStyle.container}>
         <HomeHashtagList onPressHashtag={onPressHashtag} />
         <HomeEventList onPressEvent={onPressEvent} />
@@ -27,8 +30,8 @@ export const HomeScreen: React.FC = () => {
 const HomeScreenStyle = StyleSheet.create({
   container: {
     marginTop: -30,
-    paddingTop: 20,
-    paddingBottom: 20,
-    marginBottom: 30,
+    paddingTop: 50,
+    paddingBottom: Dimensions.get("window").height * 0.4,
+    marginBottom: Dimensions.get("window").height * 0.1,
   },
 });
