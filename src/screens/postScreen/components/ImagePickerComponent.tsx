@@ -26,12 +26,6 @@ export const ImagePickerComponent: React.FC<{
       return;
     }
 
-    if (props.selectedImages.length >= 5) {
-      // disable upload button if maximum number of images has been reached
-      props.setUploadButtonEnabled(true);
-      return;
-    }
-
     let result = (await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       aspect: [4, 3],
@@ -47,8 +41,13 @@ export const ImagePickerComponent: React.FC<{
 
       // enable upload button if the number of images is less than 5
       if (newSelectedImages.length < 5) {
-        props.setUploadButtonEnabled(true);
+        props.setUploadButtonEnabled(false);
       }
+    }
+    if (props.selectedImages.length > 4) {
+      // disable upload button if maximum number of images has been reached
+      props.setUploadButtonEnabled(true);
+      return;
     }
   };
 
@@ -60,7 +59,7 @@ export const ImagePickerComponent: React.FC<{
 
     // enable upload button if the number of images is less than 5
     if (newSelectedImages.length < 5) {
-      props.setUploadButtonEnabled(true);
+      props.setUploadButtonEnabled(false);
     }
   };
 
